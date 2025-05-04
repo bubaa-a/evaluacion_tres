@@ -104,4 +104,28 @@ class ProductService extends ChangeNotifier {
     Navigator.of(context).pushNamed('list');
     return '';
   }
+
+  List<Listado> searchProducts(String query) {
+    return products
+        .where((product) =>
+            product.productName.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
+
+  List<Listado> filteredProducts = [];
+
+  void filterProducts(String query) {
+    if (query.isEmpty) {
+      filteredProducts = products;
+    } else {
+      filteredProducts = products
+          .where(
+              (p) => p.productName.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    notifyListeners();
+  }
+
+  List<Listado> get filteredProductsList => filteredProducts;
+  List<Listado> get allProducts => products;
 }

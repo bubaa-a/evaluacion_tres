@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/cart_provider.dart';
 import 'package:flutter_application_1/screen/loading_screen.dart';
+import 'package:flutter_application_1/screen/searchdelegate.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application_1/models/productos.dart';
 import 'package:flutter_application_1/widgets/product_card.dart';
-
 import 'package:flutter_application_1/services/product_service.dart';
 
 class ListProductScreen extends StatelessWidget {
@@ -23,7 +23,12 @@ class ListProductScreen extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: ProductSearchDelegate(),
+              );
+            },
           ),
 
           // Icono de carrito con contador
@@ -34,7 +39,7 @@ class ListProductScreen extends StatelessWidget {
                 IconButton(
                   icon: const Icon(Icons.shopping_cart),
                   onPressed: () {
-                    // acción al presionar el carrito (puedes navegar a otro screen)
+                    Navigator.pushNamed(context, 'cart');
                   },
                 ),
                 if (cart.itemCount > 0)
@@ -82,7 +87,8 @@ class ListProductScreen extends StatelessWidget {
                 icon: const Icon(Icons.add_shopping_cart),
                 onPressed: () {
                   // Incrementar contador en tiempo de ejecución
-                  Provider.of<CartProvider>(context, listen: false).addItem();
+                  Provider.of<CartProvider>(context, listen: false)
+                      .addItem(product);
                 },
               ),
             ),
